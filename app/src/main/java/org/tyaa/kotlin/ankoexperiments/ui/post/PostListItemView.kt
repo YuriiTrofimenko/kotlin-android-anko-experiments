@@ -13,8 +13,8 @@ import org.tyaa.kotlin.ankoexperiments.ui.viewextensions.bindString
 
 class PostListItemView: AnkoComponent<ViewGroup> {
 
-    val titleData = StandardObservableProperty("test text")
-    val imageData = StandardObservableProperty("test image")
+    val titleData = StandardObservableProperty("")
+    val imageData = StandardObservableProperty("")
 
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
         verticalLayout {
@@ -23,7 +23,7 @@ class PostListItemView: AnkoComponent<ViewGroup> {
             padding = dip(16)
 
             imageView {
-                Glide.with(this).load("http://i.pravatar.cc/56?u=${titleData.value}").into(this)
+                bindString(imageData)
             }.lparams {
                 height = dip(40)
                 width = dip(40)

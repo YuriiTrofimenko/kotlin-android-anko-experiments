@@ -5,9 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.list
 import org.jetbrains.anko.setContentView
 import org.jetbrains.anko.startActivity
 import org.tyaa.kotlin.ankoexperiments.data.post.Post
+import org.tyaa.kotlin.ankoexperiments.data.post.PostClient
 import org.tyaa.kotlin.ankoexperiments.utils.InjectorUtils
 
 class PostActivity : AppCompatActivity() {
@@ -39,10 +46,22 @@ class PostActivity : AppCompatActivity() {
                 Log.d("MyTag", post.title)
             }
         })*/
-        // Add two posts to Post ViewModel
+        /*// Add two posts to Post ViewModel
         val post = Post(1, "t1", "Lorem Ipsum 1", 1)
         viewModel.addPost(post)
         val post2 = Post(2, "t2", "Lorem Ipsum 2", 2)
-        viewModel.addPost(post2)
+        viewModel.addPost(post2)*/
+        // Add posts from server module to Post ViewModel
+
+        var postsString = ""
+        runBlocking {
+            GlobalScope.launch(Dispatchers.IO) {
+                postsString = PostClient(coroutineContext).getPosts()
+            }.join()
+        }
+        val posts = Json.parse(Post.serializer().list, postsString)
+        posts.forEach {
+            viewModel.addPost(it)
+        }
     }
 }

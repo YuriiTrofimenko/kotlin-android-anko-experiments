@@ -24,7 +24,6 @@ class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("MyTag pos", position.toString())
         holder.bindItem(posts!![position], listener)
     }
 
@@ -33,11 +32,8 @@ class RecyclerViewAdapter(
     class ViewHolder(val postListItemView: PostListItemView, override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bindItem(item: Post, listener: (Post) -> Unit) {
-            Log.d("MyTag titleData 1", postListItemView.titleData.toString())
-            Log.d("MyTag titleData 2", item.title)
             postListItemView.titleData.value = item.title
-            //postListItemView.titleData.
-            //Glide.with(containerView).load(item.).into(ivImage)
+            postListItemView.imageData.value = item.title
             containerView.setOnClickListener { listener(item) }
         }
     }
