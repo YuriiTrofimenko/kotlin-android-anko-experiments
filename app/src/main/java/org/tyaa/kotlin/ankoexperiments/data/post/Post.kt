@@ -1,4 +1,4 @@
-package org.tyaa.kotlin.ankoexperiments.data
+package org.tyaa.kotlin.ankoexperiments.data.post
 
 import kotlinx.serialization.Serializable
 
